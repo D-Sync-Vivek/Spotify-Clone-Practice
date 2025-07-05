@@ -1,5 +1,6 @@
 console.log("Lets Write JavaScript");
 let currentSong = new Audio();
+let songs;
 
 function secondsToMinSec(seconds) {
   if (isNaN(seconds) || seconds < 0) {
@@ -45,12 +46,12 @@ const playMusic = (track, pause = false) => {
     .replaceAll(".mp3", "")
     .replaceAll(".m4a", "")
     .replaceAll("/", "");
-  document.querySelector(".songtime").innerHTML = "00:00 / 00:00" ;
+  document.querySelector(".songtime").innerHTML = "00:00 / 00:00";
 };
 
 async function main() {
   // get the list of all songs
-  let songs = await getSongs();
+  songs = await getSongs();
   playMusic(songs[0], true);
   // show all the songs in the playlist
 
@@ -108,10 +109,47 @@ async function main() {
 
   // add an event listener to seekbar
   document.querySelector(".seekbar").addEventListener("click", (e) => {
-    let percent = e.offsetX / e.target.getBoundingClientRect().width * 100;
+    let percent = (e.offsetX / e.target.getBoundingClientRect().width) * 100;
 
     document.querySelector(".circle").style.left = percent + "%";
-    currentSong.currentTime =  currentSong.duration*percent / 100;
+    currentSong.currentTime = (currentSong.duration * percent) / 100;
+  });
+
+  // Add an event listener to hamburger.
+  document.querySelector(".hamburger").addEventListener("click", () => {
+    document.querySelector(".left").style.left = 0;
+  });
+
+  // Add an event listener to hamburger.
+  document.querySelector(".close").addEventListener("click", () => {
+    document.querySelector(".left").style.left = -110 + "%";
+  });
+
+  // Add an event listener to previous
+  previous.addEventListener("click", () => {
+    console.log("previous clicked");
+
+    let currentPath = new URL(currentSong.src).pathname.replace("/songs/","");
+    let index = songs.indexOf(currentPath);
+
+    if(index !== -1 && index - 1 >= 0){
+      playMusic(songs[index-1]);
+    }
+    console.log(currentPath, index, songs)
+
+  });
+
+  // Add an event listener to next
+  next.addEventListener("click", () => {
+    console.log("next clicked");
+
+    let currentPath = new URL(currentSong.src).pathname.replace("/songs/","");
+    let index = songs.indexOf(currentPath);
+
+    if(index !== -1 && index + 1 < songs.length){
+      playMusic(songs[index+1]);
+    }
+
   });
 }
 
