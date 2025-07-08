@@ -17,6 +17,16 @@ function secondsToMinSec(seconds) {
   return `${formattedMin}:${formattedSec}`;
 }
 
+function attachSongClickListeners() {
+  Array.from(
+    document.querySelector(".songlist").getElementsByTagName("li")
+  ).forEach((e) => {
+    e.addEventListener("click", (element) => {
+      playMusic(e.querySelector(".info").firstElementChild.innerHTML.trim());
+    });
+  });
+}
+
 async function getSongs(folder) {
   currFolder = folder;
   let a = await fetch(`http://127.0.0.1:3000/${folder}/`);
@@ -116,6 +126,7 @@ async function displayAlbums() {
     e.addEventListener("click", async (item) => {
       songs = await getSongs(`songs/${item.currentTarget.dataset.folder}`);
       playMusic(songs[0]);
+      attachSongClickListeners();
     });
   });
 }
@@ -124,6 +135,7 @@ async function main() {
   // get the list of all songs
   await getSongs("songs/AlanWalker");
   playMusic(songs[0], true);
+  attachSongClickListeners();
 
   // Display all the albums on the page.
   displayAlbums();
@@ -194,7 +206,7 @@ async function main() {
 
   // Add an event listener to next
   next.addEventListener("click", () => {
-    currentSong.pause();
+    // currentSong.pause();
 
     let currentPath = new URL(currentSong.src).pathname.replace(
       `/${currFolder}/`,
@@ -213,22 +225,35 @@ async function main() {
     .getElementsByTagName("input")[0]
     .addEventListener("change", (e) => {
       currentSong.volume = parseInt(e.target.value) / 100;
+      if (currentSong.volume > 0) {
+        document.querySelector(".volume>img").src = document
+          .querySelector(".volume >img")
+          .src.replace("image-s/mute.svg", "image-s/volume.svg");
+      }
     });
 
-    // Add an event listener to mute the track.
-    document.querySelector(".volume > img").addEventListener("click", e=>{
-      if(e.target.src.includes("image-s/volume.svg")){
-        e.target.src = e.target.src.replace("image-s/volume.svg", "image-s/mute.svg");
-        currentSong.volume = 0;
-        document.querySelector(".range").getElementsByTagName("input")[0].value = 0;
-      }
-      else{
-        
-        e.target.src = e.target.src.replace("image-s/mute.svg","image-s/volume.svg");
-        currentSong.volume = 1;
-        document.querySelector(".range").getElementsByTagName("input")[0].value = 100;
-      }
-    })
+  // Add an event listener to mute the track.
+  document.querySelector(".volume > img").addEventListener("click", (e) => {
+    if (e.target.src.includes("image-s/volume.svg")) {
+      e.target.src = e.target.src.replace(
+        "image-s/volume.svg",
+        "image-s/mute.svg"
+      );
+      currentSong.volume = 0;
+      document
+        .querySelector(".range")
+        .getElementsByTagName("input")[0].value = 0;
+    } else {
+      e.target.src = e.target.src.replace(
+        "image-s/mute.svg",
+        "image-s/volume.svg"
+      );
+      currentSong.volume = 1;
+      document
+        .querySelector(".range")
+        .getElementsByTagName("input")[0].value = 100;
+    }
+  });
 }
 
 main();

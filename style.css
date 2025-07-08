@@ -1,6 +1,5 @@
-
-:root{
-  --a:0;
+:root {
+  --a: 0;
 }
 * {
   padding: 0;
@@ -103,12 +102,12 @@ body {
 
 .card {
   position: relative;
-  width: 200px;
+  width: 175px;
   padding: 10px;
   border-radius: 5px;
   background-color: #252525;
   cursor: pointer;
-  transition: all .8s ;
+  transition: all 0.8s;
 }
 
 .card > * {
@@ -122,7 +121,7 @@ body {
 
 .card:hover {
   background-color: rgb(49, 49, 49);
-  --a:1;
+  --a: 1;
 }
 
 .play {
@@ -135,8 +134,8 @@ body {
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 173px;
-  right: 20px;
+  bottom: 110px;
+  right: 16px;
   opacity: var(--a);
   transition: all 1s ease-out;
 }
@@ -254,7 +253,7 @@ body {
   border-radius: 13px;
   background-color: black;
   position: relative;
-  bottom: 4px;
+  bottom: 3px;
   left: 0%;
   transition: left 0.5s;
 }
@@ -289,7 +288,7 @@ body {
   align-items: center;
   gap: 10px;
 }
-.range input{
+.range input {
   cursor: pointer;
 }
 
@@ -298,7 +297,6 @@ body {
 }
 
 @media (max-width: 768px) {
-
   .left {
     position: absolute;
     left: -110%;
@@ -311,7 +309,7 @@ body {
   .right {
     width: 100vw;
   }
-  .library{
+  .library {
     min-height: 83vh;
   }
 
@@ -362,10 +360,31 @@ body {
     flex-direction: column;
     gap: 5px;
   }
+  .play {
+    bottom: 110px;
+    right: 2.5vw;
+  }
 }
 
 @media (max-width: 612px) {
   .card {
     width: 37vw;
+  }
+
+  .left {
+    position: fixed;
+    top: 0px;
+  }
+
+  .cardContainer {
+    max-height: unset;
+    overflow: unset;
+    margin-bottom: 20vh;
+  }
+  .play {
+    bottom: 110px;
+    right: 3.5vw;
+    width: 17px;
+    height: 17px;
   }
 }
