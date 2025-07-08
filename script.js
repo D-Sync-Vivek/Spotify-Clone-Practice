@@ -220,40 +220,26 @@ async function main() {
   });
 
   // Add an event to volume.
-  document
-    .querySelector(".range")
-    .getElementsByTagName("input")[0]
-    .addEventListener("change", (e) => {
-      currentSong.volume = parseInt(e.target.value) / 100;
-      if (currentSong.volume > 0) {
-        document.querySelector(".volume>img").src = document
-          .querySelector(".volume >img")
-          .src.replace("image-s/mute.svg", "image-s/volume.svg");
+  document.querySelector(".range").getElementsByTagName("input")[0].addEventListener("change", (e) => {currentSong.volume = parseInt(e.target.value) / 100;
+      if(currentSong.volume >  0 ){
+        document.querySelector(".volume>img").src = document.querySelector(".volume >img").src.replace("image-s/mute.svg","image-s/volume.svg");
       }
     });
 
-  // Add an event listener to mute the track.
-  document.querySelector(".volume > img").addEventListener("click", (e) => {
-    if (e.target.src.includes("image-s/volume.svg")) {
-      e.target.src = e.target.src.replace(
-        "image-s/volume.svg",
-        "image-s/mute.svg"
-      );
-      currentSong.volume = 0;
-      document
-        .querySelector(".range")
-        .getElementsByTagName("input")[0].value = 0;
-    } else {
-      e.target.src = e.target.src.replace(
-        "image-s/mute.svg",
-        "image-s/volume.svg"
-      );
-      currentSong.volume = 1;
-      document
-        .querySelector(".range")
-        .getElementsByTagName("input")[0].value = 100;
-    }
-  });
+    // Add an event listener to mute the track.
+    document.querySelector(".volume > img").addEventListener("click", e=>{
+      if(e.target.src.includes("image-s/volume.svg")){
+        e.target.src = e.target.src.replace("image-s/volume.svg", "image-s/mute.svg");
+        currentSong.volume = 0;
+        document.querySelector(".range").getElementsByTagName("input")[0].value = 0;
+      }
+      else{
+        
+        e.target.src = e.target.src.replace("image-s/mute.svg","image-s/volume.svg");
+        currentSong.volume = 1;
+        document.querySelector(".range").getElementsByTagName("input")[0].value = 100;
+      }
+    })
 }
 
 main();
